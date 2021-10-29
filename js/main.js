@@ -15,6 +15,25 @@ function addVideoGame() {
     }
 }
 function displayGame(myGame) {
+    var displayDiv = getById("display");
+    var gameHeading = document.createElement("h2");
+    gameHeading.innerText = myGame.title;
+    var gameInfo = document.createElement("p");
+    var notOnlineDisplay = "";
+    if (!myGame.onlineOnly) {
+        notOnlineDisplay = "not";
+    }
+    gameInfo.innerText =
+        myGame.title +
+            " has a rating of " +
+            myGame.rating +
+            ". It costs $" +
+            myGame.price +
+            ". It is " +
+            notOnlineDisplay +
+            " digital only";
+    displayDiv.appendChild(gameHeading);
+    displayDiv.appendChild(gameInfo);
 }
 function getById(id) {
     return document.getElementById(id);
