@@ -3,13 +3,7 @@ class VideoGame {
   price: number;
   rating: string;
   onlineOnly: boolean;
-}
-// test code
-// let myGame = new VideoGame();
-// myGame.title = "Mario";
-// myGame.rating = "E";
-// myGame.price = 30;
-// myGame.onlineOnly = false;
+};
 
 window.onload = function () {
   // assigning addBtn to the add video game button
@@ -18,11 +12,19 @@ window.onload = function () {
   addBtn.onclick = addVideoGame;
 };
 
+/**
+ * clears all errors in validation-summary
+ */  
+function clearAllErrors() {
+    let errorSummary = getById("validation-summary");
+    errorSummary.innerText = "";
+
+}
+
 function addVideoGame() {
-  alert("test");
-  // check if data is valid, if so then pull the game value with getVideoGame() then display with displayGame()
-  if (isAllDataValid()) {
-    let game = getVideoGame();
+  if (allDataValid()) {
+    clearAllErrors();
+    let game:VideoGame = getVideoGame();
     displayGame(game);
   }
 }
@@ -86,8 +88,40 @@ function getVideoGame(): VideoGame {
 
   return game;
 }
+function getInputById(id:string):HTMLInputElement {
+    return <HTMLInputElement>document.getElementById(id);
+}
 
-// ADD VALIDATION CODE*****************
-function isAllDataValid() {
-  return true;
+
+function allDataValid() {
+    let isValid = true;
+    
+    let title = getInputById("title").value;
+  
+    if (title == ""){
+        isValid = false;
+        addErrorMessage("Title is required!!");
+  
+    }
+    let price = getInputById("price").value;
+    let priceValue = parseFloat(price)
+    if(price == "" || isNaN(priceValue)){
+        isValid = false;
+        addErrorMessage("Price is required and must be a number!!")
+        
+    }
+    let rating = (<HTMLOptionElement>getById("rating")).value;
+    if(rating == "") {
+        isValid = false;
+        addErrorMessage("You must select a rating!!!")
+    }
+
+    return isValid;
+  }
+
+function addErrorMessage(errorMessage) {
+    let errorSummary = getById("validation-summary");
+    let errorItem = document.createElement("li");
+    errorItem.innerText = errorMessage;
+    errorSummary.appendChild(errorItem);
 }
